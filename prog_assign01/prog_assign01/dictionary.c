@@ -82,11 +82,11 @@ int find(char *target, int start, int end) {
 
 	upper_lower(target);
 
-	while (dictionary[middle][i] != ' ') {
+	while (dictionary[middle][i] != '(') {
 		word[i] = dictionary[middle][i];
 		i++;
 	}
-	word[i] = '\0';
+	word[i-1] = '\0';
 	i = 0;
 
 	if (start > end) { //찾는 단어가 없음
@@ -123,11 +123,11 @@ int find(char *target, int start, int end) {
 	else if (strcmp(target, word) == 0) {
 		while (strcmp(target, word) == 0) {
 			count++;
-			while (dictionary[middle+count][i] != ' ') {
+			while (dictionary[middle+count][i] != '(') {
 				word[i] = dictionary[middle+count][i];
 				i++;
 			}
-			word[i] = '\0';
+			word[i-1] = '\0';
 			i = 0;
 		}
 		printf("Found %d items.\n", count);
