@@ -4,14 +4,16 @@
 #include <stdlib.h>
 #include <ctype.h>
 #define buffer_len 30
-#define Arr_size 200000
+#define dict_size 200000
+#define word_size 20
+#define line_len 3000
 
-int size=0;
-char *dictionary[Arr_size];
+int size = 0;
+char *dictionary[dict_size];
 
 void read(char *s);
 int read_line(FILE * fp, char str[], int n);
-int find();
+int find(char *target, int start, int end);
 void upper_lower(char *s);
 
 int main() {
@@ -38,6 +40,7 @@ int main() {
 		}
 		else printf("Command do not exist.\n\n");
 	}
+	return 0;
 }
 
 int read_line(FILE * fp, char str[], int n)
@@ -52,7 +55,7 @@ int read_line(FILE * fp, char str[], int n)
 
 void read(char *s) {
 	FILE *fp;
-	char buffer[3000];
+	char buffer[line_len];
 	int i = 0;
 
 	fp = fopen(s, "r");
@@ -64,7 +67,7 @@ void read(char *s) {
 		printf("File loaded.\n\n");
 
 	while (!feof(fp)) {
-		read_line(fp, buffer, 3000);
+		read_line(fp, buffer, line_len);
 		if (strcmp(_strdup(buffer),"")==0) continue;
 		else {
 			dictionary[i] = _strdup(buffer);
@@ -77,7 +80,7 @@ void read(char *s) {
 
 int find(char *target, int start, int end) {
 	int middle = (start + end) / 2;
-	char word[20];
+	char word[word_size];
 	int i = 0, count = 0;
 
 	upper_lower(target);
@@ -90,8 +93,8 @@ int find(char *target, int start, int end) {
 	i = 0;
 
 	if (start > end) { //찾는 단어가 없음
-		char prev[30];
-		char next[30];
+		char prev[buffer_len];
+		char next[buffer_len];
 		int k = 0;
 
 		while (dictionary[middle][k] != ')') {
@@ -144,7 +147,7 @@ int find(char *target, int start, int end) {
 
 void upper_lower(char *s){
 	int i = 1;
-	char buffer[20];
+	char buffer[word_size];
 	if (islower(s[0])) buffer[0] = s[0] - 32;
 	else buffer[0] = s[0];
 	while (s[i] != '\0') {
